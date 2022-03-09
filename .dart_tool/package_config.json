@@ -8,6 +8,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "auto_size_text",
+      "rootUri": "file:///home/tolik/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/auto_size_text-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///home/tolik/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/boolean_selector-2.1.0",
       "packageUri": "lib/",
@@ -170,7 +176,7 @@
       "languageVersion": "2.16"
     }
   ],
-  "generated": "2022-03-08T10:04:00.106054Z",
+  "generated": "2022-03-08T20:11:11.551490Z",
   "generator": "pub",
   "generatorVersion": "2.16.1"
 }
