@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:test_zadaniya/constant/constant.dart';
 import 'package:test_zadaniya/core/size_config/size_config.dart';
 import 'package:test_zadaniya/core/widget.dart';
 import 'package:test_zadaniya/model/post_model.dart';
@@ -19,11 +20,10 @@ class SecondPage extends StatefulWidget {
 
 class _SecondPageState extends State<SecondPage> {
   UserModel? data;
-  final TextEditingController _commentsController = TextEditingController();
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final _globalKey = GlobalKey<FormState>();
-  final _globalKey2 = GlobalKey<FormState>();
+  final _commentsController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _emailController = TextEditingController();
+
   final _globalKey3 = GlobalKey<FormState>();
   CommentsModel? _model;
 
@@ -42,7 +42,8 @@ class _SecondPageState extends State<SecondPage> {
         title: Text(data!.name.toString()),
         elevation: 0,
       ),
-      body: Column(
+     
+      body: SingleChildScrollView(child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
@@ -84,33 +85,47 @@ class _SecondPageState extends State<SecondPage> {
                   left: getProportionScreenWidth(20),
                   right: getProportionScreenWidth(20),
                   top: getProportionScreenHeight(15)),
-              child: Form(
-                key: _globalKey,
-                child: TextFieldMy(
-                  key: _globalKey,
-                  controller: _titleController,
-                  hint: "title for comment...",
-                ),
+              child: TextFieldMy(
+                controller: _titleController,
+                hint: "title for comment...",
               )),
           Padding(
-              padding: EdgeInsets.only(
-                  left: getProportionScreenWidth(20),
-                  right: getProportionScreenWidth(20),
-                  top: getProportionScreenHeight(10)),
-              child: Form(
-                  key: _globalKey2,
-                  child: TextFieldMy(
-                    controller: _emailController,
-                    hint: "email...",
-                  ))),
+            padding: EdgeInsets.only(
+                left: getProportionScreenWidth(20),
+                right: getProportionScreenWidth(20),
+                top: getProportionScreenHeight(10)),
+            child: TextFieldMy(
+              controller: _emailController,
+              hint: "email...",
+            ),
+          ),
           Padding(
             padding: EdgeInsets.only(
                 left: getProportionScreenHeight(20),
                 right: getProportionScreenWidth(20),
                 top: getProportionScreenHeight(10)),
             child: Form(
-              child: TextFieldMy(
-                controller: _globalKey3,
+              child: TextFormField(
+                controller: _commentsController,
+                decoration: InputDecoration(
+                  hintText: "comment...",
+                  contentPadding: ConstantsMy.padding,
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(
+                          getProportionScreenHeight(100))),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(
+                      getProportionScreenHeight(100),
+                    ),
+                  ),
+                ),
+                validator: (val) {
+                  if (val!.isEmpty) {
+                    return "Shouldn't be empty";
+                  }
+                  return null;
+                },
               ),
               key: _globalKey3,
             ),
@@ -128,12 +143,10 @@ class _SecondPageState extends State<SecondPage> {
                       "Title: ${_model!.name},Email: ${_model!.email}, body: ${_model!.body}"),
                 ),
         ],
-      ),
+      ),),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          if (_globalKey.currentState!.validate() &&
-              _globalKey2.currentState!.validate() &&
-              _globalKey3.currentState!.validate()) {
+          if (_globalKey3.currentState!.validate()) {
             final CommentsModel model = await PostService.postComment(
               _titleController.text,
               _emailController.text,
